@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es-MX"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototipo · Miguel Vera Arquitecto</title>
+<style>
+:root{--ink:#111;--muted:#77746e;--line:#e3e0da;--bg:#f6f5f2;--soft:#efede8;--acc:#8a6a43;--accs:#f3ece2;--red:#b3261e;--reds:#fbeceb}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 "Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg)}
+.app{display:flex;min-height:100vh}aside{width:220px;background:var(--ink);color:#ccc;flex-shrink:0}
+.brand{display:flex;gap:10px;align-items:center;padding:18px;border-bottom:1px solid #2a2a2a}
+.mk{width:36px;height:36px;background:#fff;color:#111;font-weight:700;display:grid;place-items:center}
+.brand b{display:block;color:#fff;font-size:13px;letter-spacing:.04em}.brand small{font-size:9px;letter-spacing:.3em}
+nav a{display:block;padding:10px 18px;color:#ccc;text-decoration:none;cursor:pointer}nav a.on{background:#262626;color:#fff;box-shadow:inset 3px 0 var(--acc)}
+main{flex:1;padding:24px;min-width:0}h1{margin:0 0 16px;font-size:22px}h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin:0;color:#3a3a38}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px;margin-bottom:16px}.ch{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.cb{padding:16px}
+.g{display:grid;gap:16px;grid-template-columns:repeat(4,1fr)}.kpi .v{font-size:22px;font-weight:600}.kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.kpi.al{background:var(--reds);border-color:#e9b8b4}.kpi.al .v{color:var(--red)}
+.act{display:flex;gap:12px;padding:10px 16px;border-bottom:1px solid var(--soft)}.act.ov{background:var(--reds);box-shadow:inset 3px 0 var(--red)}.act .w{width:90px;font-size:12px;color:var(--muted)}.act.ov .w{color:var(--red);font-weight:600}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;padding:8px;border-bottom:1px solid var(--line);font-weight:500}td{padding:8px;border-bottom:1px solid var(--soft)}
+.r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}input,select{font:inherit;border:1px solid #cfcbc3;border-radius:4px;padding:6px 8px;width:100%}
+.btn{font:inherit;padding:7px 14px;border:1px solid #cfcbc3;background:#fff;border-radius:4px;cursor:pointer}.btn.p{background:var(--ink);color:#fff;border-color:var(--ink)}
+.int{background:var(--accs)}.badge{font-size:11px;padding:2px 8px;border-radius:9px;background:var(--soft)}
+.kan{display:grid;grid-auto-flow:column;grid-auto-columns:220px;gap:10px;overflow-x:auto}.col{background:var(--soft);border-radius:6px;min-height:240px;padding:8px}.col h4{margin:0 0 8px;font-size:12px}
+.kc{background:#fff;border:1px solid var(--line);border-radius:4px;padding:8px;margin-bottom:8px;cursor:grab;font-size:13px}
+.qg{display:grid;grid-template-columns:1fr 300px;gap:16px}.tot td{border:none;padding:4px 0}.tot .gr td{font-weight:700;font-size:16px;border-top:1px solid var(--ink);padding-top:8px}
+.sec{background:#fbfaf8;font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em}
+/* Vista cliente */
+#pdf{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);overflow:auto;padding:30px}#pdf.on{display:block}
+.sheet{background:#fff;max-width:780px;margin:auto;padding:44px;font-size:12px}.sheet .hd{display:flex;justify-content:space-between;border-bottom:1.5px solid #111;padding-bottom:12px;margin-bottom:14px}
+.sheet .tt{font-weight:700;letter-spacing:.15em}.sheet .ft{border-top:1px solid var(--line);margin-top:30px;padding-top:6px;font-size:10px;color:var(--muted);text-align:center}
+.sign{display:flex;gap:40px;margin-top:50px}.sign div{flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px}
+@media(max-width:800px){aside{display:none}.g{grid-template-columns:1fr 1fr}.qg{grid-template-columns:1fr}main{padding:12px}}
+@media print{body *{visibility:hidden}#pdf,#pdf *{visibility:visible}#pdf{position:absolute;padding:0;background:none}.np{display:none}}
+</style></head><body>
+<div class="app"><aside><div class="brand"><div class="mk">MV</div><div><b>MIGUEL VERA</b><small>ARQUITECTO</small></div></div>
+<nav id="nav"></nav></aside><main id="main"></main></div>
+<div id="pdf"></div>
+<script>
+const $=s=>document.querySelector(s), M=n=>'$'+(+n).toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2});
+const D={
+ clientes:[{n:'Jorge Salgado',t:'442 123 4567',c:'jorge@correo.com',g:'Particular',d:'Querétaro'},{n:'Hybrid Power Studio',t:'442 555 0101',c:'contacto@hybrid.mx',g:'Gimnasio',d:'Juriquilla'}],
+ opps:[{n:'Retechado cochera 37 m²',c:'Jorge Salgado',m:36928.04,e:'Cotización enviada'},{n:'Barra de bebidas',c:'Hybrid Power Studio',m:50957.33,e:'Ganada'},{n:'Remodelación baño',c:'Jorge Salgado',m:45000,e:'Visita pendiente'}],
+ acts:[{t:'Seguimiento cotización MV-261024-01',c:'Jorge Salgado',d:-1,h:'16:00',ty:'Seguimiento'},{t:'Visita técnica baño',c:'Jorge Salgado',d:0,h:'10:00',ty:'Visita técnica'},{t:'Solicitar precios a Arkos',c:'—',d:2,h:'09:00',ty:'Proveedor'},{t:'Cobranza finiquito barra',c:'Hybrid Power Studio',d:5,h:'12:00',ty:'Cobranza'}],
+ q:{folio:'MV-261024-01',cli:'Jorge Salgado',tit:'Reparación e impermeabilización de cochera 37 m²',secs:[
+  {t:'Materiales',it:[['Tablero liso primer 122 × 244 cm','pza',13,869.88,1000.36],['Pija fibrocemento punta broca 8 × 1 1/4"','pza',650,0.462,0.531],['Cinta fibra de vidrio 10 cm × 45 m','pza',2,100.32,115.37]]},
+  {t:'Mano de obra instalación',it:[['Colocación de tablero de fibrocemento (incluye pasta, adhesivo, sellador, juntas, acarreos y limpieza)','m²',37,218.46,251.23]]},
+  {t:'Mano de obra recubrimientos',it:[['Aplicación de impermeabilizante acrílico','m²',37,210.54,242.12]]}]}
+};
+const ST=['Nuevo contacto','Contactado','Visita pendiente','Preparando cotización','Cotización enviada','Negociación','Ganada','Perdida'];
+const P={Inicio,Agenda,Clientes,Oportunidades,Cotización};let cur='Inicio';
+function nav(){$('#nav').innerHTML=Object.keys(P).map(k=>`<a class="${k==cur?'on':''}" onclick="go('${k}')">${k}</a>`).join('')}
+function go(k){cur=k;nav();$('#main').innerHTML=P[k]();if(k=='Cotización')calc()}
+const day=d=>d==0?'Hoy':d<0?'Vencida':new Date(Date.now()+d*864e5).toLocaleDateString('es-MX');
+const actRow=a=>`<div class="act ${a.d<0?'ov':''}"><div class="w">${day(a.d)}<br>${a.h}</div><div style="flex:1"><b>${a.t}</b><div style="font-size:12px;color:#77746e">${a.ty} · ${a.c}</div></div><button class="btn" onclick="this.closest('.act').style.opacity=.4">✓ Realizada</button></div>`;
+function Inicio(){const ab=D.opps.filter(o=>!['Ganada','Perdida'].includes(o.e));return `<h1>Inicio</h1>
+<div class="g">${[['Vencidas',D.acts.filter(a=>a.d<0).length,'al'],['Hoy',D.acts.filter(a=>a.d==0).length],['Embudo potencial',M(ab.reduce((s,o)=>s+o.m,0))],['Ventas ganadas',M(D.opps.filter(o=>o.e=='Ganada').reduce((s,o)=>s+o.m,0))]].map(k=>`<div class="card kpi ${k[2]||''}"><div class="cb"><div class="l">${k[0]}</div><div class="v">${k[1]}</div></div></div>`).join('')}</div>
+<div class="card"><div class="ch"><h3>Lo que sigue</h3><button class="btn p" onclick="go('Agenda')">Ver agenda</button></div>${D.acts.sort((a,b)=>a.d-b.d).map(actRow).join('')}</div>`}
+function Agenda(){return `<h1>Agenda</h1><div class="card"><div class="ch"><h3>Próximas actividades</h3><button class="btn p" onclick="addAct()">+ Actividad</button></div>${D.acts.sort((a,b)=>a.d-b.d).map(actRow).join('')}</div>`}
+function addAct(){const t=prompt('Título de la actividad');if(t){D.acts.push({t,c:'—',d:1,h:'10:00',ty:'Llamada'});go('Agenda')}}
+function Clientes(){return `<h1>Clientes</h1><div class="card"><div class="ch"><input placeholder="Buscar…" oninput="[...document.querySelectorAll('#ct tr')].forEach(r=>r.style.display=r.textContent.toLowerCase().includes(this.value.toLowerCase())?'':'none')" style="max-width:300px"><button class="btn p" onclick="addCli()">+ Cliente</button></div>
+<table><thead><tr><th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Giro</th><th>Ciudad</th></tr></thead><tbody id="ct">${D.clientes.map(c=>`<tr><td><b>${c.n}</b></td><td>${c.t}</td><td>${c.c}</td><td>${c.g}</td><td>${c.d}</td></tr>`).join('')}</tbody></table></div>`}
+function addCli(){const n=prompt('Nombre del cliente');if(n){D.clientes.push({n,t:prompt('Teléfono')||'',c:prompt('Correo')||'',g:prompt('Giro')||'',d:'Querétaro'});go('Clientes')}}
+let drag;function Oportunidades(){return `<h1>Oportunidades</h1><div class="kan">${ST.map(s=>`<div class="col" ondragover="event.preventDefault()" ondrop="D.opps[drag].e='${s}';go('Oportunidades')"><h4>${s}</h4>${D.opps.map((o,i)=>o.e==s?`<div class="kc" draggable="true" ondragstart="drag=${i}"><b>${o.n}</b><div style="color:#77746e">${o.c}</div><div class="r">${M(o.m)}</div></div>`:'').join('')}</div>`).join('')}</div>`}
+function Cotización(){const q=D.q;return `<h1>Cotización ${q.folio} <span class="badge">Enviada</span></h1>
+<div class="qg"><div class="card"><div class="ch"><h3>${q.tit} · ${q.cli}</h3><button class="btn p" onclick="pdf()">Vista cliente / PDF</button></div>
+<table><thead><tr><th>Concepto</th><th>UM</th><th class="r">Cant.</th><th class="r">P.U. venta</th><th class="r">Importe</th><th class="r int">Costo U. 🔒</th><th class="r int">Utilidad</th></tr></thead><tbody>
+${q.secs.map((s,si)=>`<tr><td colspan="7" class="sec">${s.t}</td></tr>`+s.it.map((it,ii)=>`<tr><td>${it[0]}</td><td>${it[1]}</td><td class="r"><input style="width:70px" value="${it[2]}" oninput="D.q.secs[${si}].it[${ii}][2]=+this.value;calc()"></td><td class="r"><input style="width:90px" value="${it[4]}" oninput="D.q.secs[${si}].it[${ii}][4]=+this.value;calc()"></td><td class="r" id="a${si}${ii}"></td><td class="r int"><input style="width:80px" value="${it[3]}" oninput="D.q.secs[${si}].it[${ii}][3]=+this.value;calc()"></td><td class="r int" id="u${si}${ii}"></td></tr>`).join('')).join('')}
+</tbody></table></div>
+<div><div class="card"><div class="ch"><h3>Resumen</h3></div><div class="cb"><table class="tot" id="tot"></table></div></div>
+<div class="card int"><div class="ch"><h3>Rentabilidad 🔒 interno</h3></div><div class="cb"><table class="tot" id="ren"></table></div></div></div></div>`}
+const r2=n=>Math.round(n*100)/100;
+function calc(){let v=0,c=0;D.q.secs.forEach((s,si)=>s.it.forEach((it,ii)=>{const a=r2(it[2]*it[4]),k=r2(it[2]*it[3]);v+=a;c+=k;$('#a'+si+ii).textContent=M(a);$('#u'+si+ii).textContent=M(a-k)}));
+const iva=r2(v*.16),t=v+iva,u=v-c;$('#tot').innerHTML=`<tr><td>Subtotal</td><td class="r">${M(v)}</td></tr><tr><td>IVA 16 %</td><td class="r">${M(iva)}</td></tr><tr class="gr"><td>Total</td><td class="r">${M(t)}</td></tr><tr><td>Anticipo 70 %</td><td class="r">${M(r2(t*.7))}</td></tr><tr><td>Contra entrega 30 %</td><td class="r">${M(t-r2(t*.7))}</td></tr>`;
+$('#ren').innerHTML=`<tr><td>Costo (Arkos)</td><td class="r">${M(c)}</td></tr><tr class="gr"><td>Utilidad bruta</td><td class="r">${M(u)}</td></tr><tr><td>Margen sobre venta</td><td class="r">${v?(u/v*100).toFixed(2):'—'} %</td></tr><tr><td>Recargo sobre costo</td><td class="r">${c?(u/c*100).toFixed(2):'—'} %</td></tr>`;D.tot={v,iva,t}}
+function pdf(){const q=D.q,T=D.tot;$('#pdf').innerHTML=`<div class="sheet"><div class="hd"><div class="brand" style="padding:0;border:0"><div class="mk" style="background:#111;color:#fff">MV</div><div><b style="color:#111;font-size:16px">MIGUEL VERA</b><small style="letter-spacing:.3em">ARQUITECTO</small></div></div><div style="text-align:right"><div class="tt">PROPUESTA ECONÓMICA</div>Folio: ${q.folio}<br>Querétaro, Qro., 24/10/2026</div></div>
+<p><small style="color:#77746e">CLIENTE</small><br><b>${q.cli}</b></p><h3 style="font-size:14px;text-transform:none;letter-spacing:0;color:#111">${q.tit}</h3>
+<table><thead><tr><th>Concepto</th><th>UM</th><th class="r">Cant.</th><th class="r">P.U.</th><th class="r">Importe</th></tr></thead><tbody>${q.secs.map(s=>`<tr><td colspan="5" class="sec">${s.t}</td></tr>`+s.it.map(it=>`<tr><td>${it[0]}</td><td>${it[1]}</td><td class="r">${it[2]}</td><td class="r">${M(it[4])}</td><td class="r">${M(r2(it[2]*it[4]))}</td></tr>`).join('')).join('')}</tbody></table>
+<table class="tot" style="width:240px;margin:14px 0 0 auto"><tr><td>Subtotal</td><td class="r">${M(T.v)}</td></tr><tr><td>IVA 16 %</td><td class="r">${M(T.iva)}</td></tr><tr class="gr"><td>TOTAL</td><td class="r">${M(T.t)}</td></tr></table>
+<p><b>Forma de pago:</b> 70 % anticipo (${M(r2(T.t*.7))}) · 30 % contra entrega.<br><b>Tiempo de ejecución:</b> 3 días después de recibir el anticipo.<br><b>Vigencia:</b> 15 días.</p>
+<div class="sign"><div><b>Arq. Miguel Vera Fernández</b><br>Cédula profesional 10350309<br>Licenciatura en Arquitectura, ITESM Querétaro</div><div><b>Acepto la propuesta</b><br>Nombre y firma del cliente</div></div>
+<div class="ft">Arq. Miguel Vera Fernández | Cel. 442 585 3499 | miguelverafernandez@gmail.com | Cédula 10350309</div>
+<p class="np" style="text-align:center;margin-top:16px"><button class="btn p" onclick="print()">Imprimir / Guardar PDF</button> <button class="btn" onclick="$('#pdf').classList.remove('on')">Cerrar</button></p></div>`;$('#pdf').classList.add('on')}
+go('Inicio');
+</script></body></html>
